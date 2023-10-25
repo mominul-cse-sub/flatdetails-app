@@ -1,0 +1,50 @@
+// Fonts
+@import url("https://fonts.bunny.net/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css";
+
+.leftcontent {
+    ul {
+        padding-left: 0px;
+        li {
+            list-style: none;
+            font-size: large;
+            margin-bottom: 4px;
+            padding-left: 0px;
+        }
+    }
+}
+
+.rightcontent {
+    .image-container {
+        position: relative;
+        display: inline-block;
+        overflow: hidden; /* To ensure the overlay respects the image dimensions */
+    }
+
+    .buttons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(
+            -50%,
+            -50%
+        ); /* Center the buttons horizontally and vertically */
+        opacity: 0; /* Initially invisible */
+        transition: opacity 0.3s; /* Add a smooth transition effect */
+    }
+
+    .image-container:hover .buttons {
+        opacity: 1; /* Show the buttons on hover */
+    }
+
+    .buttons button {
+        margin: 10px;
+    }
+}

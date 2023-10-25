@@ -1,0 +1,117 @@
+// Fonts
+@import url("https://fonts.bunny.net/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css";
+
+.topNavbar {
+    .profileInfoContainer {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        width: 250px;
+    }
+    .dropdown-toggle::after {
+        display: none;
+    }
+    .leftNav {
+        li {
+            display: inline-block;
+            margin-right: 30px;
+            color: #1e1b4b;
+        }
+    }
+
+    .rightNav {
+        li {
+            margin-left: 30px;
+        }
+    }
+}
+
+.leftSidebar {
+    min-height: calc(100vh - 55.04px);
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    bottom: 0;
+    background-color: #f3f4f6;
+    .navbar-brand {
+        margin-bottom: 30px;
+        font-size: 19px;
+        display: block;
+        text-align: center;
+        background: #e8e9ed;
+        padding: 12.4px;
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        li {
+            background-color: #f3f4f6;
+            transition: all 0.25s;
+            &:hover {
+                background: #e8e9ed;
+            }
+            &.logout {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+            }
+            a {
+                padding: 12px 20px;
+                display: block;
+                text-decoration: none;
+                color: #1e1b4b;
+                i {
+                    margin-right: 10px;
+                }
+                .fa-chevron-down {
+                    float: right;
+                }
+            }
+            ul {
+                height: 0px;
+                overflow: hidden;
+                transition: all 0.25s;
+                li {
+                    list-style: none;
+                    padding-left: 20px;
+                }
+            }
+            &.opened {
+                ul {
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+
+body {
+    padding-top: 55px;
+}
+
+.btn {
+    .spinner-border {
+        display: none;
+    }
+    &.loading {
+        .spinner-border {
+            display: inline-block;
+        }
+    }
+}
+
+.alertContainer {
+    position: absolute;
+    right: 20px;
+    top: 70px;
+    width: 290px;
+    z-index: 999;
+}
