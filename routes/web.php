@@ -32,8 +32,8 @@ Route::group( ['middleware' => ['web','can:flat_owner'], 'prefix' => 'flat'],fun
     Route::get('/allflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'allflat'])->name('flat.allflat');
     Route::get('/inactiveflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'inactiveflat'])->name('flat.inactiveflat');
     Route::get('/activeflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'activeflat'])->name('flat.activeflat');
-    Route::get('/profile', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'profile'])->name('flat.profile');
-    Route::put('/profileupdate', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'profileupdate'])->name('flat.profileupdate');
+    Route::resource('profile', \App\Http\Controllers\Fo\FlatOwnerProfileController::class)->name('*','sarower');
+    // Route::put('/profileupdate', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'profileupdate'])->name('flat.profileupdate');
     Route::get('/{id}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'show'])->name('flat.show');
     Route::get('/{id}/edit', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'edit'])->name('flat.edit');
     Route::put('/flat/{id}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'update'])->name('flat.update');

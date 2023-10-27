@@ -22,6 +22,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->tinyInteger('role');
             $table->integer('avatar')->nullable();
+            $table->integer('address_id')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

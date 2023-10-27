@@ -33,7 +33,8 @@
                             </div>
                         </form>
                         <form method="post" onsubmit="return handleBasicForm('fileUploader')"
-                            action="{{ route('flat.profileupdate') }}" enctype="multipart/form-data" class="mt-0">
+                            action="{{ route('profile.update', Auth::user()->id) }}" enctype="multipart/form-data"
+                            class="mt-0">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -90,7 +91,8 @@
                                         <label>Thana:</label>
                                         <select name="thana" id="thana" class="form-control">
                                             @foreach ($thanas as $thanalist)
-                                                <option value="{{ $thanalist->name }}">{{ $thanalist->name }}
+                                                <option {{ $flatlocation->thana == $thanalist->name ? 'selected' : '' }}
+                                                    value="{{ $thanalist->name }}">{{ $thanalist->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -102,14 +104,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group mt-2">
                                         <label>Socity Name:</label>
-                                        @if ($flatlocation == null)
-                                            <input type="text" name="socity_name" value='' class="form-control"
-                                                placeholder="Socity Name">
-                                        @else
-                                            <input type="text" name="socity_name"
-                                                value='{{ $flatlocation->socity_name }}' class="form-control"
-                                                placeholder="Socity Name">
-                                        @endif
+                                        <input type="text" name="socity_name" value='{{ $flatlocation->socity_name }}'
+                                            class="form-control" placeholder="Socity Name">
                                         @error('socity_name')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -118,14 +114,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group mt-2">
                                         <label>Road Number:</label>
-                                        @if ($flatlocation == null)
-                                            <input type="text" name="road_number" value='' class="form-control"
-                                                placeholder="Road Number">
-                                        @else
-                                            <input type="text" name="road_number"
-                                                value='{{ $flatlocation->road_number }}' class="form-control"
-                                                placeholder="Road Number">
-                                        @endif
+                                        <input type="text" name="road_number" value='{{ $flatlocation->road_number }}'
+                                            class="form-control" placeholder="Road Number">
                                         @error('road_number')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror

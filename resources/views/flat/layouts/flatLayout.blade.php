@@ -173,7 +173,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class=""><a href="{{ route('flat.profile') }}"><i class="fa-solid fa-user"></i>
+                        <li class=""><a href="/flat/profile"><i class="fa-solid fa-user"></i>
                                 Profile</a></li>
                         <li class="logout">
                             <a href="{{ route('logout') }}"
