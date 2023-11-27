@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('flatdetails', function (Blueprint $table) {
             $table->id();
-            $table->string('flat_id', 10);
+            $table->string('address_id', 10);
             $table->string('flat_name', 25);
             $table->string('sft', 10);
             $table->string('bed_room', 10);
@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('store_room', 10);
             $table->string('belkuni', 10);
             $table->tinyInteger('status');
+            $table->string('user_id', 10);
+            $table->string('images_id', 200)->nullable();
             $table->timestamps();
         });
     }

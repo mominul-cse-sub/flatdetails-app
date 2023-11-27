@@ -16,9 +16,11 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Division:</label>
-                                        <select name="division" id="division" class="form-control">
+                                        <select name="division" id="division" class="form-control"
+                                            onchange="handleDivision(this)">
+                                            <option disabled selected>Select Division</option>
                                             @foreach ($divisions as $division)
-                                                <option value="{{ $division->name }}">{{ $division->name }}</option>
+                                                <option value="{{ $division->id }}">{{ $division->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('division')
@@ -29,10 +31,9 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>District:</label>
-                                        <select name="district" id="district" class="form-control">
-                                            @foreach ($districts as $district)
-                                                <option value="{{ $district->name }}">{{ $district->name }}</option>
-                                            @endforeach
+                                        <select name="district" id="district" class="form-control" disabled
+                                            onchange="handleDistrict(this)">
+                                            <option>Select District</option>
                                         </select>
                                         @error('district')
                                             <div class="text-danger">{{ $message }}</div>
@@ -42,10 +43,8 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label>Thana:</label>
-                                        <select name="thana" id="thana" class="form-control">
-                                            @foreach ($thanas as $thana)
-                                                <option value="{{ $thana->name }}">{{ $thana->name }}</option>
-                                            @endforeach
+                                        <select name="thana" id="thana" class="form-control" disabled>
+                                            <option>Select Thana</option>
                                         </select>
                                         @error('thana')
                                             <div class="text-danger">{{ $message }}</div>
@@ -214,7 +213,7 @@
                         </div>
                         <div class="card-body mb-0">
                             <div class="form-group mb-4">
-                                <input type="file" name="file" required multiple class="form-control">
+                                <input type="file" name="file[]" multiple class="form-control">
                                 <!-- Error -->
                                 @if ($errors->has('file'))
                                     <div class='text-danger mt-2'>

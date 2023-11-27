@@ -46,3 +46,114 @@ function handleBasicForm(submitButton) {
         return false;
     }
 }
+
+function handleDivision(Division) {
+    var divisionId = Division.value;
+    var selectDistrict = document.getElementById("district");
+    var selectThana = document.getElementById("thana");
+    selectDistrict.setAttribute("disabled", true);
+    selectThana.setAttribute("disabled", true);
+
+    fetch(`${API_ENDPOINT}/districts/${divisionId}`)
+        .then((response) => response.json())
+        .then((result) => {
+            selectDistrict.innerHTML = "<option>Select District</option>";
+            selectThana.innerHTML = "<option>Select Thana</option>";
+            selectDistrict.removeAttribute("disabled");
+            Object.keys(result).map((item, index) => {
+                const district = result[item];
+                var option = document.createElement("option");
+                option.text = district.name;
+                option.value = district.id;
+                selectDistrict.appendChild(option);
+            });
+        })
+        .catch((error) => console.log("error", error));
+}
+
+function handleDistrict(District) {
+    var districtId = District.value;
+    var selectThana = document.getElementById("thana");
+    selectThana.setAttribute("disabled", true);
+
+    fetch(`${API_ENDPOINT}/thanas/${districtId}`)
+        .then((response) => response.json())
+        .then((result) => {
+            selectThana.innerHTML = "<option>Select Thana</option>";
+            selectThana.removeAttribute("disabled");
+            Object.keys(result).map((item, index) => {
+                const thana = result[item];
+                var option = document.createElement("option");
+                option.text = thana.name;
+                option.value = thana.id;
+                selectThana.appendChild(option);
+            });
+        })
+        .catch((error) => console.log("error", error));
+}
+
+function openNotification(notification) {
+    var page = "";
+    if (
+        notification.event_type == 1 ||
+        notification.event_type == 2 ||
+        notification.event_type == 3
+    ) {
+        page = "flat";
+    }
+    if (notification.is_read == 0) {
+        fetch(`${API_ENDPOINT}/notification/${notification.id}`)
+            .then((response) => response.json())
+            .then(() => {
+                if (notification.event_type == 4) {
+                    window.location = "/flat/profile";
+                } else {
+                    window.location = `/${page}/${notification.path_id}`;
+                }
+            })
+            .catch((error) => console.log("error", error));
+    } else {
+        if (notification.event_type == 4) {
+            window.location = "/flat/profile";
+        } else {
+            window.location = `/${page}/${notification.path_id}`;
+        }
+    }
+    return;
+}
+
+function selectAvatar(THIS) {
+    const file = THIS.files[0];
+    if (!file) {
+        return;
+    }
+    if (
+        file.type == "image/png" ||
+        file.type == "image/jpg" ||
+        file.type == "image/jpeg"
+    ) {
+        var avatarPreview = document.getElementById("avatarPreview");
+        var avatarForm = document.getElementById("avatarForm");
+        avatarPreview.src = URL.createObjectURL(file);
+        // avatarForm.submit();
+
+        // Smart way
+        var formData = new FormData(avatarForm);
+
+        var requestOptions = {
+            method: "POST",
+            // headers: myHeaders,
+            body: formData,
+            // redirect: "follow",
+        };
+
+        fetch(`${API_ENDPOINT}/uploadAvatar`, requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => console.log("error", error));
+    } else {
+        alert("Please select JPG, JPEG or PNG type file");
+    }
+}

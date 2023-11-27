@@ -19,7 +19,7 @@
                                     Flat Id:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->flat_id }}
+                                    #{{ $flat->id }}
                                 </div>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                                     Flat Name:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->flat_name }}
+                                    {{ $flat->flat_name }}
                                 </div>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                     Total Square Feet:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->sft }}
+                                    {{ $flat->sft }}
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                     Bed Room:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->bed_room }}
+                                    {{ $flat->bed_room }}
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                                     Dining Room:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->dining_room }}
+                                    {{ $flat->dining_room }}
                                 </div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                     Drawing Room:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->drawing_room }}
+                                    {{ $flat->drawing_room }}
                                 </div>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                     Bath Room:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->bath_room }}
+                                    {{ $flat->bath_room }}
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                     Kitchen Room:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->kitchen_room }}
+                                    {{ $flat->kitchen_room }}
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                                     Store Room:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->store_room }}
+                                    {{ $flat->store_room }}
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,22 @@
                                     Belkuni:
                                 </div>
                                 <div class="col-8">
-                                    {{ $flatdetails->belkuni }}
+                                    {{ $flat->belkuni }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item mb-2">
+                            <div class="row">
+                                <div class="col-4">
+                                    Address:
+                                </div>
+                                <div class="col-8">
+                                    {{ $flat->address->flat_number }}, House Number: {{ $flat->address->house_number }},
+                                    Block: {{ $flat->address->block }},
+                                    Road: {{ $flat->address->road_number }}, Socity Name:
+                                    {{ $flat->address->socity_name }}, Thana: {{ $flat->address->thanaInfo->name }},
+                                    District: {{ $flat->address->districtInfo->name }}, Division:
+                                    {{ $flat->address->divisionInfo->name }}
                                 </div>
                             </div>
                         </div>
@@ -119,84 +134,11 @@
             <div class="col-md-4 rightcontent">
                 <div class="card mb-3">
                     <div class="card-header">
-                        Action
-                    </div>
-                    <div class="card-body">
-                        @if ($flatdetails->status == 1)
-                            <a class="btn btn-primary" href="{{ route('inactive', $flatlocation->id) }}">Inactive</a>
-                        @else
-                            <a class="btn btn-primary" href="{{ route('active', $flatlocation->id) }}">Active</a>
-                        @endif
-                        @method('DELETE')
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#confirmModal{{ $flatlocation->id }}">Delete
-                            <i class="bi bi-trash"></i>
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="confirmModal{{ $flatlocation->id }}" tabindex="-1"
-                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-body text-start">
-                                        Are you sure?
-                                    </div>
-                                    <div class="modal-footer d-flex justify-content-start">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                                        <form class="text-center" action="{{ route('destroy', $flatlocation->id) }}"
-                                            method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger">Yes</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card mb-3">
-                    <div class="card-header">
-                        Upload Image
-                    </div>
-                    <div class="card-body">
-                        @if ($images->count() >= config('variables.FLAT_MAX_IMAGES'))
-                            <div>Maximum {{ config('variables.FLAT_MAX_IMAGES') }} images are allowed for a flat. Please
-                                delete exiting images before upload any
-                                image.</div>
-                        @else
-                            <form method="post" onsubmit="return handleBasicForm('fileUploader')"
-                                action="{{ route('imageupload', $flatlocation->id) }}" enctype="multipart/form-data">
-                                @csrf
-                                <div class="form-group mb-4">
-                                    <input type="file" name="file" required multiple class="form-control">
-                                    <!-- Error -->
-                                    @if ($errors->has('file'))
-                                        <div class='text-danger mt-2'>
-                                            * {{ $errors->first('file') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="form-group ">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" id="fileUploader" class="btn btn-primary">
-                                            Submit
-                                            <div class="spinner-border spinner-border-sm" role="status"> </div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="card mb-3">
-                    <div class="card-header">
                         Images
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @forelse ($images as $image)
+                            @forelse ($flat->files() as $image)
                                 <div class="col-md-4">
                                     <div class="col-md-12">
                                         <div class="image-container">
@@ -211,8 +153,8 @@
                                                         <div class="modal-header">
                                                             <h1 class="modal-title fs-5" id="exampleModalLabel">
                                                                 {{ $image->name }}</h1>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body p-0">
                                                             <img src="{{ $image->imagepath }}" class="w-100">
@@ -226,8 +168,7 @@
                                                     <i class="fa-solid fa-magnifying-glass"></i>
                                                 </button>
 
-                                                <button type="button" class="btn btn-danger delete"
-                                                    data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-danger delete" data-bs-toggle="modal"
                                                     data-bs-target="#confirmDeleteImage{{ $image->id }}"><i
                                                         class="fa-solid fa-trash"></i>
                                                 </button>
@@ -247,9 +188,9 @@
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">No</button>
                                                 <form class="text-center"
-                                                    action="{{ route('flat.imagedelete', $image->id) }}" method="post">
+                                                    action="{{ route('flat.imagedelete', [$image->id, $flat->id]) }}"
+                                                    method="post">
                                                     @csrf
-                                                    @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Yes</button>
                                                 </form>
                                             </div>
@@ -261,6 +202,72 @@
                                     No image found for this flat
                                 </div>
                             @endforelse
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Advertisement
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="image-container">
+                                        <img src="/images/ad/1.jpg" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            class="w-100">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body p-0">
+                                                        <img src="/images/ad/1.jpg" class="w-100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="image-container">
+                                        <img src="/images/ad/1.jpg" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            class="w-100">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body p-0">
+                                                        <img src="/images/ad/1.jpg" class="w-100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="col-md-12">
+                                    <div class="image-container">
+                                        <img src="/images/ad/1.jpg" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                            class="w-100">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body p-0">
+                                                        <img src="/images/ad/1.jpg" class="w-100">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -17,13 +17,10 @@
     <!-- Scripts -->
     @vite(['resources/sass/flat.scss', 'resources/js/app.js'])
 
+    <script>
+        var API_ENDPOINT = '{{ env('API_ENDPOINT', '') }}';
+    </script>
     <script src="/js/flat.js"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@{{ version }}/dist/js/bootstrap.bundle.min.js"></script> --}}
-
-
-
-
 
 </head>
 
@@ -71,34 +68,35 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="fa-solid fa-bell fa-lg"></i>
+                                    @if (Auth::user()->totalUnreadNotification() > 0)
+                                        <span
+                                            class="position-absolute top-1 start-8
+                                            0 translate-middle badge rounded-pill bg-danger">{{ Auth::user()->totalUnreadNotification() }}</span>
+                                    @endif
                                 </a>
 
                                 <div class="dropdown-menu profileInfoContainer dropdown-menu-end"
                                     aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
+                                    <div class="card">
+                                        <div class="card-body notification p-0">
+                                            @forelse(Auth::user()->notification() as $notification)
+                                                <a class="dropdown-item border-bottom {{ $notification->is_read == 0 ? 'unread' : 'read' }}"
+                                                    href="javascript:void(0)"
+                                                    onclick="openNotification({{ json_encode($notification) }})">
+                                                    <div class="title">
+                                                        {{ $notification->title }}
+                                                    </div>
+                                                    <small>{{ $notification->created_at->diffForHumans() }}</small>
+                                                </a>
+                                            @empty
+                                                <div>
+                                                    <i class="fa-regular fa-folder-open"></i>
+                                                </div>
+                                            @endforelse
+                                            <a href="/flat/allnotification" class="dropdown-item text-center">SEE
+                                                ALL</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -110,13 +108,13 @@
                                 <div class="dropdown-menu profileInfoContainer dropdown-menu-end"
                                     aria-labelledby="navbarDropdown">
                                     <div class="card text-center">
-                                        <img src="{{ Auth::user()->avatar ? '/images/avatar.jpg' : '/images/avatar.jpg' }}"
+                                        <img src="{{ Auth::user()->avatar ? str_replace('uploads/', 'uploads/200X200-', Auth::user()->avatar()->imagepath) : '/images/avatar.jpg' }}"
                                             class="card-img-top rounded-circle mx-auto mt-4" alt="Profile Picture"
                                             style="width: 100px; height: 100px;">
                                         <div class="card-body">
                                             <h5 class="card-title">{{ Auth::user()->name }}</h5>
                                             <p class="card-text">Flat Owner</p>
-                                            <button class="btn btn-primary">Settings</button>
+                                            <a class="btn btn-primary" href="/flat/profile">Settings</a>
                                             <a class="btn btn-danger" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                              document.getElementById('logout-form').submit();">

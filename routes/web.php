@@ -33,6 +33,7 @@ Route::group( ['middleware' => ['web','can:flat_owner'], 'prefix' => 'flat'],fun
     Route::get('/inactiveflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'inactiveflat'])->name('flat.inactiveflat');
     Route::get('/activeflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'activeflat'])->name('flat.activeflat');
     Route::resource('profile', \App\Http\Controllers\Fo\FlatOwnerProfileController::class)->name('*','sarower');
+    Route::resource('allnotification', \App\Http\Controllers\Fo\NotificationController::class)->name('*','mominul');
     // Route::put('/profileupdate', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'profileupdate'])->name('flat.profileupdate');
     Route::get('/{id}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'show'])->name('flat.show');
     Route::get('/{id}/edit', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'edit'])->name('flat.edit');
@@ -42,7 +43,7 @@ Route::group( ['middleware' => ['web','can:flat_owner'], 'prefix' => 'flat'],fun
     Route::get('/active/{id}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'active'])->name('active');
     Route::get('/{id}/imageupload', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'addimage'])->name('addimage');
     Route::post('/upload/{flat}/image', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'imageupload'])->name('imageupload');
-    Route::delete('/imagedelete/{id}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'imagedelete'])->name('flat.imagedelete');
+    Route::post('/imagedelete/{id}/{flatId}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'imagedelete'])->name('flat.imagedelete');
 
 
 });

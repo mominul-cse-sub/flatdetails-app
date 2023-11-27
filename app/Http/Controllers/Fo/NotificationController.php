@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Tenant;
+namespace App\Http\Controllers\Fo;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Models\Address;
-use App\Models\Flatdetails;
-use App\Models\Images;
-use Auth;
 
-class TenantController extends Controller
+class NotificationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +14,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        return view('tenant.pages.dashboard.dashboard');
+        return view('flat.pages.notification');
     }
 
     /**
@@ -51,9 +46,7 @@ class TenantController extends Controller
      */
     public function show($id)
     {
-        $address = Address::where('id', $id)->first();
-        $flatdetails = Flatdetails::where('flat_id',$address->id)->first();
-        return view('tenant.pages.flatdetails', compact('address','flatdetails'));
+        //
     }
 
     /**
@@ -88,10 +81,5 @@ class TenantController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function allflat(){
-        $addresses = Address::where('status', 1)->get();
-        return view('tenant.pages.showallflat', compact('addresses'));
     }
 }

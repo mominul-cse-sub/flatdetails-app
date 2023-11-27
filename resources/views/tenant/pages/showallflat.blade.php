@@ -32,19 +32,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($flatlocations as $flatlocation)
+                    @foreach ($addresses as $address)
                         <tr>
-                            <td class= "text-center">{{ $flatlocation->id }}</td>
-                            <td>{{ $flatlocation->division }}</td>
-                            <td>{{ $flatlocation->district }}</td>
-                            <td>{{ $flatlocation->thana }}</td>
-                            <td>{{ $flatlocation->socity_name }}</td>
-                            <td class= "text-center">{{ $flatlocation->road_number }}</td>
-                            <td class= "text-center">{{ $flatlocation->block }}</td>
-                            <td class= "text-center">{{ $flatlocation->house_number }}</td>
-                            <td class= "text-center">{{ $flatlocation->flat_number }}</td>
+                            <td class= "text-center">{{ $address->id }}</td>
+                            <td>{{ $address->division }}</td>
+                            <td>{{ $address->district }}</td>
+                            <td>{{ $address->thana }}</td>
+                            <td>{{ $address->socity_name }}</td>
+                            <td class= "text-center">{{ $address->road_number }}</td>
+                            <td class= "text-center">{{ $address->block }}</td>
+                            <td class= "text-center">{{ $address->house_number }}</td>
+                            <td class= "text-center">{{ $address->flat_number }}</td>
                             <td>
-                                <a class="btn btn-primary" href="{{ route('tenant.show', $flatlocation->id) }}">Details</a>
+                                <a class="btn btn-primary" href="{{ route('tenant.show', $address->id) }}">Details</a>
                             </td>
                         </tr>
                     @endforeach

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -45,4 +46,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function notification(){
+        return Notification::where('notification_for', $this->id)->orderBy("id", 'DESC')->limit(5)->get();
+    }
+
+    public function allnotification(){
+        return Notification::where('notification_for', $this->id)->orderBy("id", 'DESC')->get();
+    }
+
+    public function totalUnreadNotification(){
+        return Notification::where('notification_for', $this->id)->where('is_read', '0')->count();
+    }
+
+    public function avatar(){
+        return Files::where('id', $this->avatar)->first();
+    }
 }

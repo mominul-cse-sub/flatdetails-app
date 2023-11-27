@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Fo;
 use Auth;
 use Session;
 use Illuminate\Http\Request;
-use App\Models\Flatlocation;
+use App\Models\Address;
 use App\Http\Controllers\Controller;
 use lemonpatwari\bangladeshgeocode\Models\Division;
 use lemonpatwari\bangladeshgeocode\Models\District;
 use lemonpatwari\bangladeshgeocode\Models\Thana;
+use App\Traits\NotificationTrait;
+use App\Traits\FileTrait;
 
 class FlatOwnerProfileController extends Controller
 {
@@ -18,18 +20,27 @@ class FlatOwnerProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     use NotificationTrait;
+     use FileTrait;
+
+
     public function index()
     {
-        $divisions = Division::all();
-        $districts = District::all();
-        $thanas = Thana::all();
-
         $user = Auth::user();
-        $flatlocation = Flatlocation::where('id', Auth::user()->address_id)->where('status', '1')->first();
-        if(empty($flatlocation)){
-            $flatlocation = new Flatlocation();
+        $address = Address::where('id', Auth::user()->address_id)->where('status', '1')->first();
+
+        if(empty($address)){
+            $address = new Address();
+            $divisions = Division::all();
+            $districts = NULL;
+            $thanas = NULL;
+        }else{
+            $divisions = Division::all();
+            $districts = District::where('division_id',$address->division)->get();
+            $thanas = Thana::where('district_id',$address->district)->get();
         }
-        return view('flat.pages.profile',compact('divisions', 'districts', 'thanas','user','flatlocation'));
+        return view('flat.pages.profile',compact('divisions', 'districts', 'thanas','user','address'));
     }
 
     /**
@@ -50,7 +61,13 @@ class FlatOwnerProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $file = $request->file('file');
+        $upload = $this->uploadFile($file,'flat-',Auth::user());
+
+        Auth::user()->avatar = $upload->id;
+        Auth::user()->save();
+
+        die('success');
     }
 
     /**
@@ -96,16 +113,23 @@ class FlatOwnerProfileController extends Controller
         ]);
 
        if(Auth::user()->address_id == null){
-            $flatlocation = Flatlocation::create(array_merge($request->all(), ['user_id' => Auth::user()->id],['status' => '1']));
+            $address = Address::create(array_merge($request->all(), ['user_id' => Auth::user()->id],['status' => '1']));
             $user = Auth::user();
             $user->update([
-                'address_id'=>$flatlocation->id
+                'address_id'=>$address->id
             ]);
        }
        else{
-            $flatlocation = Flatlocation::where('id', Auth::user()->address_id)->where('status', '1')->first();
-            $flatlocation->fill($request->post())->save();
+            $address = Address::where('id', Auth::user()->address_id)->where('status', '1')->first();
+            $address->fill($request->post())->save();
        }
+
+
+        $title = 'Profile Info has been Updated.';
+        $description='You have updated your profile information. Stay connected.';
+        $event_type =config('variables.EVENT_TYPE.profile_update');
+
+        $this->createNotification($title,$description,Auth::user()->address_id,$event_type);
 
         Session::flash('message', ['type'=>'success', 'message'=>'Profile Information Has Been updated successfully']);
 
@@ -121,5 +145,9 @@ class FlatOwnerProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function profilepicture(){
+
     }
 }
