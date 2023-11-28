@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Fo;
+namespace App\Http\Controllers\User;
 
 use Auth;
 use Session;
@@ -13,18 +13,17 @@ use lemonpatwari\bangladeshgeocode\Models\Thana;
 use App\Traits\NotificationTrait;
 use App\Traits\FileTrait;
 
-class FlatOwnerProfileController extends Controller
+class ProfileController extends Controller
 {
+
+    use NotificationTrait;
+    use FileTrait;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
-     use NotificationTrait;
-     use FileTrait;
-
-
     public function index()
     {
         $user = Auth::user();
@@ -40,7 +39,7 @@ class FlatOwnerProfileController extends Controller
             $districts = District::where('division_id',$address->division)->get();
             $thanas = Thana::where('district_id',$address->district)->get();
         }
-        return view('flat.pages.profile',compact('divisions', 'districts', 'thanas','user','address'));
+        return view('user.profile',compact('divisions', 'districts', 'thanas','user','address'));
     }
 
     /**
@@ -145,9 +144,5 @@ class FlatOwnerProfileController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function profilepicture(){
-
     }
 }

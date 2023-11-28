@@ -19,7 +19,7 @@
                                     Flat Id:
                                 </div>
                                 <div class="col-8">
-                                    #{{ $flat->id }}
+                                    {{ $flat->id }}
                                 </div>
                             </div>
                         </div>
