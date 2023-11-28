@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -48,6 +48,20 @@ class LocationController extends Controller
 
     public function thanas ($id=null)
     {
-        return $id?Thana::where('district_id', $id)->get():Thana::all();
+        try {
+            $thanas = $id?Thana::where('district_id', $id)->get():Thana::all();
+            if($thanas->isEmpty()){
+                throw new \Exception('Thanas not found');
+            }
+
+            return $thanas;
+        } catch (\Exception $e) {
+            throw new ApiException(
+                'NOT_FOUND',
+                $e->getMessage(),
+                'Something wrong. Please try again',
+                '404'
+            );
+        }
     }
 }
