@@ -106,7 +106,7 @@ function openNotification(notification) {
             .then((response) => response.json())
             .then(() => {
                 if (notification.event_type == 4) {
-                    window.location = "/flat/profile";
+                    window.location = "/user/profile";
                 } else {
                     window.location = `/${page}/${notification.path_id}`;
                 }
@@ -114,7 +114,7 @@ function openNotification(notification) {
             .catch((error) => console.log("error", error));
     } else {
         if (notification.event_type == 4) {
-            window.location = "/flat/profile";
+            window.location = "/user/profile";
         } else {
             window.location = `/${page}/${notification.path_id}`;
         }

@@ -93,7 +93,7 @@
                                                     <i class="fa-regular fa-folder-open"></i>
                                                 </div>
                                             @endforelse
-                                            <a href="/flat/allnotification" class="dropdown-item text-center">SEE
+                                            <a href="/user/allnotification" class="dropdown-item text-center">SEE
                                                 ALL</a>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ Auth::user()->name }}</h5>
                                             <p class="card-text">Flat Owner</p>
-                                            <a class="btn btn-primary" href="/flat/profile">Settings</a>
+                                            <a class="btn btn-primary" href="/user/profile">Settings</a>
                                             <a class="btn btn-danger" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                              document.getElementById('logout-form').submit();">
@@ -171,7 +171,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class=""><a href="/flat/profile"><i class="fa-solid fa-user"></i>
+                        <li class=""><a href="/user/profile"><i class="fa-solid fa-user"></i>
                                 Profile</a></li>
                         <li class="logout">
                             <a href="{{ route('logout') }}"

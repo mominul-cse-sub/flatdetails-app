@@ -135,7 +135,7 @@
                         <li class=""><a href="#">Dashboard</a>
                         </li>
                         <li class=""><a href="{{ route('tenant.allflat') }}">Show All Flat</a></li>
-                        <li class=""><a href="#">Profile</a></li>
+                        <li class=""><a href="/user/profile">Profile</a></li>
                         <li class="logout">
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault();

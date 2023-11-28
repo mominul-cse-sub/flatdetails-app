@@ -32,8 +32,8 @@ Route::group( ['middleware' => ['web','can:flat_owner'], 'prefix' => 'flat'],fun
     Route::get('/allflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'allflat'])->name('flat.allflat');
     Route::get('/inactiveflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'inactiveflat'])->name('flat.inactiveflat');
     Route::get('/activeflat', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'activeflat'])->name('flat.activeflat');
-    Route::resource('profile', \App\Http\Controllers\Fo\FlatOwnerProfileController::class)->name('*','sarower');
-    Route::resource('allnotification', \App\Http\Controllers\Fo\NotificationController::class)->name('*','mominul');
+    // Route::resource('profile', \App\Http\Controllers\Fo\FlatOwnerProfileController::class)->name('*','sarower');
+    // Route::resource('allnotification', \App\Http\Controllers\Fo\NotificationController::class)->name('*','mominul');
     // Route::put('/profileupdate', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'profileupdate'])->name('flat.profileupdate');
     Route::get('/{id}', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'show'])->name('flat.show');
     Route::get('/{id}/edit', [\App\Http\Controllers\Fo\FlatOwnerController::class, 'edit'])->name('flat.edit');
@@ -52,3 +52,10 @@ Route::group( ['middleware' => ['web','can:tenant'], 'prefix' => 'tenant'], func
     Route::get('/allflat', [App\Http\Controllers\Tenant\TenantController::class, 'allflat'])->name('tenant.allflat');
     Route::get('/{id}', [App\Http\Controllers\Tenant\TenantController::class, 'show'])->name('tenant.show');
 });
+
+
+Route::group(['middleware' => ['web','can:flat_owner,admin,tenant'], 'prefix' => 'user'], function () {
+    Route::resource('profile', \App\Http\Controllers\User\ProfileController::class)->name('profile.index', 'profile');
+    Route::resource('allnotification', \App\Http\Controllers\User\NotificationController::class)->name('allnotification.index', 'notification');
+});
+
