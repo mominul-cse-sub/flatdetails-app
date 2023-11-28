@@ -2,8 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\LocationController;
-use App\Http\Controllers\API\FlatController;
+use App\Http\Controllers\API\User\LocationController;
+use App\Http\Controllers\API\User\LoginController;
+use App\Http\Controllers\API\User\NotificationController;
+use App\Http\Controllers\API\User\AvatarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'v1', 'middleware'=>'auth:sanctum'] , function () {
-    Route::get('notification/{id}', [FlatController::class,'notification']);
-    Route::post('uploadAvatar', [FlatController::class,'uploadAvatar']);
+    Route::get('notification/{id}', [NotificationController::class,'notification']);
+    Route::post('uploadAvatar', [AvatarController::class,'uploadAvatar']);
 });
 
 Route::group( ['prefix' => 'v1'], function () {
@@ -32,9 +34,6 @@ Route::group( ['prefix' => 'v1'], function () {
 });
 
 
-
-
-
-Route::post("login",[FlatController::class,'index']);
+Route::post("/user/login",[LoginController::class,'index']);
 
 
