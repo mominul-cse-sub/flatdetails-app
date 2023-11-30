@@ -150,7 +150,47 @@ function selectAvatar(THIS) {
         fetch(`${API_ENDPOINT}/uploadAvatar`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
-                console.log(result);
+                const notificationItem = document.createElement("a");
+                notificationItem.className =
+                    "dropdown-item border-bottom unread";
+                notificationItem.href = "javascript:void(0)";
+                notificationItem.onclick = function () {
+                    openNotification(result);
+                };
+
+                const title = document.createElement("div");
+                title.className = "title";
+                title.innerText = result.title;
+                const time = document.createElement("small");
+                time.innerHTML = result.diffForHumans;
+
+                notificationItem.appendChild(title);
+                notificationItem.appendChild(time);
+
+                const parentDiv = document.getElementById(
+                    "notificationContainer"
+                );
+                parentDiv.prepend(notificationItem);
+
+                const notificationItems =
+                    document.getElementsByClassName("notificationItem");
+                if (notificationItems[4]) {
+                    notificationItems[4].remove();
+                }
+
+                const notificationCounter = document.getElementById(
+                    "notificationCounter"
+                );
+                notificationCounter.innerHTML =
+                    parseInt(notificationCounter.innerHTML) + 1;
+
+                const avatarImage = document.getElementById("avatarImage");
+                const imagepath = result.avatar.imagepath;
+                avatarImage.src = imagepath.replace(
+                    "uploads/",
+                    "uploads/200X200-",
+                    imagepath
+                );
             })
             .catch((error) => console.log("error", error));
     } else {

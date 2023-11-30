@@ -71,16 +71,17 @@
                                     @if (Auth::user()->totalUnreadNotification() > 0)
                                         <span
                                             class="position-absolute top-1 start-8
-                                            0 translate-middle badge rounded-pill bg-danger">{{ Auth::user()->totalUnreadNotification() }}</span>
+                                            0 translate-middle badge rounded-pill bg-danger"
+                                            id="notificationCounter">{{ Auth::user()->totalUnreadNotification() }}</span>
                                     @endif
                                 </a>
 
                                 <div class="dropdown-menu profileInfoContainer dropdown-menu-end"
                                     aria-labelledby="navbarDropdown">
                                     <div class="card">
-                                        <div class="card-body notification p-0">
+                                        <div class="card-body notification p-0" id="notificationContainer">
                                             @forelse(Auth::user()->notification() as $notification)
-                                                <a class="dropdown-item border-bottom {{ $notification->is_read == 0 ? 'unread' : 'read' }}"
+                                                <a class="dropdown-item border-bottom {{ $notification->is_read == 0 ? 'unread' : 'read' }} notificationItem"
                                                     href="javascript:void(0)"
                                                     onclick="openNotification({{ json_encode($notification) }})">
                                                     <div class="title">
@@ -93,7 +94,7 @@
                                                     <i class="fa-regular fa-folder-open"></i>
                                                 </div>
                                             @endforelse
-                                            <a href="/user/allnotification" class="dropdown-item text-center">SEE
+                                            <a href="/user/notifications" class="dropdown-item text-center">SEE
                                                 ALL</a>
                                         </div>
                                     </div>
@@ -108,7 +109,8 @@
                                 <div class="dropdown-menu profileInfoContainer dropdown-menu-end"
                                     aria-labelledby="navbarDropdown">
                                     <div class="card text-center">
-                                        <img src="{{ Auth::user()->avatar ? str_replace('uploads/', 'uploads/200X200-', Auth::user()->avatar()->imagepath) : '/images/avatar.jpg' }}"
+                                        <img id="avatarImage"
+                                            src="{{ Auth::user()->avatar ? str_replace('uploads/', 'uploads/200X200-', Auth::user()->avatar()->imagepath) : '/images/avatar.jpg' }}"
                                             class="card-img-top rounded-circle mx-auto mt-4" alt="Profile Picture"
                                             style="width: 100px; height: 100px;">
                                         <div class="card-body">

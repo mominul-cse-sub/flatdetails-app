@@ -66,7 +66,11 @@ class ProfileController extends Controller
         Auth::user()->avatar = $upload->id;
         Auth::user()->save();
 
-        die('success');
+        $title = 'Profile Picture has been Upload.';
+        $description='You have upload your profile picture. Stay connected.';
+        $event_type =config('variables.EVENT_TYPE.profile_update');
+
+        $this->createNotification($title,$description,Auth::user()->id,$event_type);
     }
 
     /**

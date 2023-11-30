@@ -56,6 +56,6 @@ Route::group( ['middleware' => ['web','can:tenant'], 'prefix' => 'tenant'], func
 
 Route::group(['middleware' => ['web','can:flat_owner,admin,tenant'], 'prefix' => 'user'], function () {
     Route::resource('profile', \App\Http\Controllers\User\ProfileController::class)->name('profile.index', 'profile');
-    Route::resource('allnotification', \App\Http\Controllers\User\NotificationController::class)->name('allnotification.index', 'notification');
+    Route::resource('notifications', \App\Http\Controllers\User\NotificationController::class)->name('notifications.index', 'notification');
 });
 

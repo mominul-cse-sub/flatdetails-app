@@ -29,8 +29,10 @@ class AvatarController extends Controller
         $description='You have Changed your profile picture. Stay connected.';
         $event_type =config('variables.EVENT_TYPE.profile_update');
 
-        $this->createNotification($title,$description,Auth::user()->address_id,$event_type);
+        $notification = $this->createNotification($title,$description,Auth::user()->id,$event_type);
+        $notification->diffForHumans = $notification->created_at->diffForHumans();
+        $notification->avatar = $upload;
 
-        return $upload;
+        return $notification;
     }
 }
